@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4f006c5bfc0b4fa284ef62972df682f2" Name="Diagram1">
+        <EntityTypeShape EntityType="oblivius_mysqlModel.fmatch" Width="1.5" PointX="10.25" PointY="13" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.goal" Width="1.5" PointX="12.5" PointY="10" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.matchevent" Width="1.5" PointX="15.5" PointY="13.5" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.pendingmatch" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.region" Width="1.5" PointX="0.5" PointY="9.875" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.season" Width="1.5" PointX="5" PointY="13.75" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.seasontable" Width="1.5" PointX="13.25" PointY="13.625" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.team" Width="1.5" PointX="8" PointY="13" />
+        <EntityTypeShape EntityType="oblivius_mysqlModel.tournament" Width="1.5" PointX="2.75" PointY="18.5" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_fmatch_season" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_fmatch_team" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_fmatch_team_2" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_fmatch_team_3" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_fmatch_team_4" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_goal_fmatch" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_matchevent_fmatch" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_goal_team" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_matchevent_team" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_season_region" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_team_region" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_tournament_region" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_season_team" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_season_tournament" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_seasontable_season" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_seasontable_team" />
+        <AssociationConnector Association="oblivius_mysqlModel.FK_team_tournament" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

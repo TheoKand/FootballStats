@@ -1,0 +1,222 @@
+﻿@model GoalsWeb.Models.team
+
+<div class="container margin-top-30">
+    <div class="row">
+
+        <div class="col-md-12 margin-bottom-20">
+            <h1 class="margin-bottom-0">@Html.DisplayFor(model => model.name)</h1>
+
+            @Html.ActionLink(Model.region.name, "Index", "rating", new { type = "domestic", countryName = Model.region.name }, null) &gt;
+            @Html.ActionLink(Model.tournament.name, "Details", "season", new { name = Model.tournament.name }, null)
+
+
+        </div>
+        DetailsByName
+
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Statistics</h3>
+                </div>
+                <div class="panel-body">
+                    @{
+
+                        int totalMatches = Model.matchesAsHomeTeam.Count + Model.matchesAsAwayTeam.Count;
+                    }
+
+                    <p><span class="glyphicon glyphicon-info-sign"></span> @Model.seasontables.Count Seasons @totalMatches Matches</p>
+                    <p><span class="glyphicon glyphicon-info-sign"></span> @ViewBag.wins Wins @ViewBag.draws Draws @ViewBag.loses Loses</p>
+
+
+                    @{
+                        GoalsWeb.Models.fmatch greatestWin = ViewBag.greatestWin;
+                        GoalsWeb.Models.fmatch worstLoss = ViewBag.worstLoss;
+                    }
+                    <p>
+                        <span class="glyphicon glyphicon-info-sign"></span> Best Win:
+                        @Html.ActionLink(greatestWin.score + " against " + greatestWin.loserTeam.name + " on " + greatestWin.matchDate.ToShortDateString(), "Details", "match", new { id = greatestWin.id }, null)</dd>
+                    </p>
+                    <p>
+                        <span class="glyphicon glyphicon-info-sign"></span> Worst Loss:
+                        @Html.ActionLink(worstLoss.score + " against " + worstLoss.winnerTeam.name + " on " + worstLoss.matchDate.ToShortDateString(), "Details", "match", new { id = worstLoss.id }, null)</dd>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        @{
+            IEnumerable<GoalsWeb.Models.season> honours = ViewBag.honours;
+            if (honours.Count() > 0)
+            {
+
+                <div class="col-md-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Honours</h3>
+                        </div>
+                        <div class="panel-body">
+                            @foreach (GoalsWeb.Models.season season in honours)
+                            {
+                                var star = season.regionId != 250 ? "glyphicon-star-empty" : "glyphicon-star";
+                                <p class="text-info">
+                                    <span class="glyphicon @star"></span> @Html.ActionLink(season.name, "Details", "season", new { name = season.tournament.name }, null)
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+
+
+
+
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Domestic Rating
+                        </th>
+                        <th>
+                            International Rating
+                        </th>
+                        <th>
+                            Total Rating
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => model.calcDomesticRating)
+                        </td>
+                        <td>@Html.DisplayFor(model => model.calcInternationalRating)  </td>
+                        <td>@Html.DisplayFor(model => model.calcTotalRating)   </td>
+                    </tr>
+                    <tr>
+                        <td><p class="small text-muted">@{Html.RenderAction("GetTeamDomesticRatingPosition", "teams", new { id = Model.id });}</p></td>
+                        <td><p class="small text-muted">@{Html.RenderAction("GetTeamInternationalRatingPosition", "teams", new { id = Model.id });}</p></td>
+                        <td><p class="small text-muted">@{Html.RenderAction("GetTeamTotalRatingPosition", "teams", new { id = Model.id });}</p></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-12 col-sm-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="text-center">Home</th>
+                        <th colspan="2" class="text-center">Away</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Goals For / Game
+                        </th>
+                        <th>
+                            Goals Against / Game
+                        </th>
+                        <th>
+                            Goals For / Game
+                        </th>
+                        <th>
+                            Goals Against / Game
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayFor(model => model.calcDomesticHomeAttackPerGame) </td>
+                        <td>@Html.DisplayFor(model => model.calcDomesticHomeDefencePerGame)  </td>
+                        <td>@Html.DisplayFor(model => model.calcDomesticAwayAttackPerGame)   </td>
+                        <td>@Html.DisplayFor(model => model.calcDomesticAwayDefencePerGame)   </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        @{
+            var expandButtonClass = ViewBag.matchesVisible ? "" : "collapsed";
+            var ariaAttribute = ViewBag.matchesVisible ? "true" : "false";
+            var divClass = ViewBag.matchesVisible ? "in" : "";
+
+        }
+        <div class="col-md-12 col-sm-12">
+            <button type="button" class='btn btn-primary @expandButtonClass' data-toggle="collapse" data-target="#Games" aria-expanded='@ariaAttribute'>Matches</button>
+            <div id="Games" class='collapse @divClass' aria-expanded='@ariaAttribute'>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr class="hidden-xs">
+                            <th>Date</th>
+                            <th>Season</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (GoalsWeb.Models.fmatch match in ViewBag.pagesMatches)
+                        {
+                            var rowclass = match.winnerTeamId == Model.id ? "bg-success" : match.winnerTeamId == null ? "bg-info" : "bg-danger";
+                            <tr class="@rowclass hidden-xs">
+                                <td>@match.matchDate.ToShortDateString()</td>
+                                <td>@Html.ActionLink(match.season.name, "Details", "season", new { name = match.season.tournament.name, year = match.season.year }, null)  </td>
+                                <td>@Html.ActionLink(match.homeTeam.name, "DetailsByName", "teams", new { name = match.homeTeam.name }, null)</td>
+                                <td>@Html.ActionLink(match.awayTeam.name, "DetailsByName", "teams", new { name = match.awayTeam.name }, null)</td>
+                                <td>@Html.ActionLink(@match.score, "Details", "match", new { id = match.id }, null)</td>
+                            </tr>
+                            <tr class="@rowclass visible-xs">
+                                <td colspan="2" class="text-center ">
+                                    @match.matchDate.ToShortDateString()<br />
+                                    @Html.ActionLink(match.season.name, "Details", "season", new { name = match.season.tournament.name, year = match.season.year }, null)
+                                </td>
+                                <td colspan="3" class="text-center ">
+                                    @Html.ActionLink(match.homeTeam.name, "DetailsByName", "teams", new { name = match.homeTeam.name }, null) - @Html.ActionLink(match.awayTeam.name, "DetailsByName", "teams", new { name = match.awayTeam.name }, null)
+                                    <br />
+                                    @Html.ActionLink(@match.score, "Details", "match", new { id = match.id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">Page @ViewBag.page of @ViewBag.totalPages </td>
+                            <td colspan="3" class="text-right">
+
+                                @{
+                                    int prevPage = ViewBag.page - 1;
+                                    int nextPage = ViewBag.page + 1;
+                                }
+
+                                @if (prevPage > 0)
+                                {
+                                    <span class="glyphicon glyphicon-step-backward"></span>@Html.ActionLink("Previous", "DetailsByName", "teams", new { name = Model.name, page = prevPage }, null)
+                                }
+                                @if (nextPage < ViewBag.totalPages)
+                                {
+                                    @Html.ActionLink("Next", "DetailsByName", "teams", new { name = Model.name, page = nextPage }, null)<span class="glyphicon glyphicon-step-forward"></span>
+                                }
+
+
+
+
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

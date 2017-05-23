@@ -1,0 +1,130 @@
+﻿@model GoalsWeb.Models.season
+
+@{
+    ViewBag.Title = Model.name;
+
+}
+
+<div class="container ">
+
+    @using (Html.BeginForm("Details", "season"))
+    {
+        <div class="jumbotron margin-top-30 ">
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                @Html.DropDownList("currentTournament", new SelectList(ViewBag.allTournaments, "name", "name", Model.tournament.name), new { @class = "form-control" })
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-4">
+                @Html.DropDownList("currentYear", new SelectList(ViewBag.years, Model.year), new { @class = "form-control" })
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-2">
+                <input type="submit" value="Go" id="btnGo" class="btn btn-primary " />
+            </div>
+            <br class="clearfix" />
+        </div>
+    }
+
+    <h1>@Html.DisplayFor(model => model.name)</h1>
+
+    @{
+        if (Model.seasontables.Count > 0)
+        {
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <h3>Season Table</h3>
+
+                    <table class="table table-condensed table-striped ">
+                        <thead>
+                            <tr class="hidden-xs">
+                                <th></th>
+                                <th></th>
+                                <th>Games</th>
+                                <th>Wins</th>
+                                <th>Draws</th>
+                                <th>Loses</th>
+                                <th>Goals For</th>
+                                <th>Goals Against</th>
+                                <th>Points</th>
+                            </tr>
+                            <tr class="visible-xs">
+                                <th></th>
+                                <th></th>
+                                <th>G</th>
+                                <th>W</th>
+                                <th>D</th>
+                                <th>L</th>
+                                <th>GF</th>
+                                <th>GA</th>
+                                <th>P</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (GoalsWeb.Models.seasontable st in Model.seasontables.OrderBy(st => st.position))
+                            {
+                            <tr>
+                                <td>@st.position </td>
+                                <td>@Html.ActionLink(st.teamName, "DetailsByName", "teams", new { name = st.teamName }, null)  </td>
+                                <td>@st.g</td>
+                                <td>@st.w</td>
+                                <td>@st.d</td>
+                                <td>@st.l</td>
+                                <td>@st.gf</td>
+                                <td>@st.ga</td>
+                                <td>@st.p</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        }
+
+    }
+    <br class="clearfix" />
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+
+            <button type="button" class='btn btn-primary collapsed' data-toggle="collapse" data-target="#Games" aria-expanded='false'>Season Matches</button>
+            <div id="Games" class='collapse' aria-expanded='false'>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Home</th>
+                            <th>Away</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var rowClass = "active";
+                            var prevDate = DateTime.MinValue;
+
+                            foreach (GoalsWeb.Models.fmatch match in Model.fmatches.OrderByDescending(m => m.matchDate))
+                            {
+                                if (prevDate != match.matchDate)
+                                {
+                                    rowClass = (rowClass == "active" ? "warning" : "active");
+                                    prevDate = match.matchDate;
+                                }
+
+                                <tr class="@rowClass">
+                                    <td>@match.matchDate.ToShortDateString()</td>
+                                    <td>@Html.ActionLink(match.homeTeam.name, "DetailsByName", "teams", new { name = match.homeTeam.name }, null)</td>
+                                    <td>@Html.ActionLink(match.awayTeam.name, "DetailsByName", "teams", new { name = match.awayTeam.name }, null)</td>
+                                    <td>@Html.ActionLink(@match.score, "Details", "match", new { id= match.id}, null)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

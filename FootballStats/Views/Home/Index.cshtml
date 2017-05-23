@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron margin-top-30">
+    <h1>Football Stats</h1>
+    <p class="lead">This is a web application that displays results and statistics from the top European football leagues, for the period 2000-2015.</p>
+    <p>This includes German Bundesliga, English Premier League, Italy Seria A, Spain La Liga, France League 1 and Portugal Primeira Liga. The data range is from 2000 to 2015.</p>
+</div>
+
+<div class="row">
+
+
+    <div class="col-md-4">
+        <h2>Features</h2>
+
+        <p>You can view a @Html.ActionLink("list of teams", "Index", "teams") organized by country. Click on the @Html.ActionLink("team name", "DetailsByName", "teams", new { name = "Real Madrid" }, null) to view all details about the team, including their trophies and a list of all their matches. </p>
+        <p>Click on the @Html.ActionLink("season name", "Details", "season", new { name = "Premier League",year="2014" }, null) to view the league table and a list of all matches.</p>
+        <p>You can view the @Html.ActionLink("details of any match", "Details", "match", new { id = "985635" }, null) by clicking on the score of a match. This includes the match timeline which has all the events of the match like passes, goals etc.</p>
+        <p>Click @Html.ActionLink("Replay Match", "Details", "replayMatch", new { id = "985635" }, null) to view a graphical representation of the match events as they happened. </p>
+
+    </div>
+
+    <div class="col-md-4">
+        <h2>Technologies</h2>
+        <p>
+            The project is built using the following technologies:
+            <ul>
+                <li>Microsoft MVC 5.2</li>
+                <li>Razor 3.2</li>
+                <li>Bootstrap 3.3</li>
+                <li>Entity Framework 6.1</li>
+                <li>ADO.NET Entity Data Model</li>
+                <li>MySql</li>
+                <li>JQuery 3.1</li>
+            </ul>
+
+        <p>It's a fully responsive website which means that all the information is visible on any type of device like mobiles and tablets.</p>
+        <p>
+            The site is published on the cloud using <a href="https://azure.microsoft.com" target="_blank">Microsoft Azure</a>.
+        </p>
+
+        </p>
+
+    </div>
+
+    <div class="col-md-4">
+        <h2>Source code</h2>
+        <p>The full source code is available for download on my Github account. The project was created with Microsoft Visual Studio 2015 on May 2017. </p>
+        <p><a class="btn btn-default" href="https://github.com/TheoKand">Browse &raquo;</a></p>
+    </div>
+
+
+</div>

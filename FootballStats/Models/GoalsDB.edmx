@@ -1,0 +1,1026 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="oblivius_mysqlModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.1" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="fmatch">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="matchDate" Type="date" Nullable="false" />
+          <Property Name="seasonId" Type="int" Nullable="false" />
+          <Property Name="homeTeamId" Type="int" Nullable="false" />
+          <Property Name="awayTeamId" Type="int" Nullable="false" />
+          <Property Name="winnerTeamId" Type="int" />
+          <Property Name="loserTeamId" Type="int" />
+          <Property Name="desc" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="score" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="homeTeamScore" Type="int" Nullable="false" />
+          <Property Name="awayTeamScore" Type="int" Nullable="false" />
+          <Property Name="info" Type="varchar" MaxLength="255" />
+          <Property Name="hasEvents" Type="int" Nullable="false" />
+          <Property Name="hasStats" Type="int" Nullable="false" />
+          <Property Name="dateCreated" Type="timestamp" Precision="0" Nullable="false" />
+          <Property Name="dateEventsAdded" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="goal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="matchId" Type="int" Nullable="false" />
+          <Property Name="index" Type="int" Nullable="false" />
+          <Property Name="half" Type="int" />
+          <Property Name="teamId" Type="int" Nullable="false" />
+          <Property Name="minute" Type="int" Nullable="false" />
+          <Property Name="second" Type="int" Nullable="false" />
+          <Property Name="score" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="matchevent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="matchId" Type="int" Nullable="false" />
+          <Property Name="index" Type="int" Nullable="false" />
+          <Property Name="teamId" Type="int" Nullable="false" />
+          <Property Name="minute" Type="int" Nullable="false" />
+          <Property Name="second" Type="int" Nullable="false" />
+          <Property Name="period" Type="int" Nullable="false" />
+          <Property Name="expMinute" Type="int" Nullable="false" />
+          <Property Name="x" Type="decimal" Precision="10" Scale="1" Nullable="false" />
+          <Property Name="y" Type="decimal" Precision="10" Scale="1" Nullable="false" />
+          <Property Name="type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="success" Type="bit" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="flags" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pendingmatch">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="matchDate" Type="date" />
+          <Property Name="result" Type="text" />
+          <Property Name="downloadDate" Type="datetime" Precision="0" />
+        </EntityType>
+        <EntityType Name="region">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="season">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="tournamentid" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="championTeamId" Type="int" />
+          <Property Name="regionId" Type="int" />
+          <Property Name="year" Type="int" />
+          <Property Name="tableDesc" Type="text" />
+          <Property Name="lastTableUpdate" Type="timestamp" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="seasontable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="seasonId" Type="int" Nullable="false" />
+          <Property Name="teamId" Type="int" Nullable="false" />
+          <Property Name="position" Type="int" Nullable="false" />
+          <Property Name="teamName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="g" Type="int" Nullable="false" />
+          <Property Name="p" Type="int" Nullable="false" />
+          <Property Name="w" Type="int" Nullable="false" />
+          <Property Name="d" Type="int" Nullable="false" />
+          <Property Name="l" Type="int" Nullable="false" />
+          <Property Name="gf" Type="int" Nullable="false" />
+          <Property Name="ga" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="regionId" Type="int" Nullable="false" />
+          <Property Name="domesticTournamentId" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="calcDomesticRating" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcInternationalRating" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcTotalRating" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcDomesticHomeAttackPerGame" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcDomesticHomeDefencePerGame" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcDomesticAwayAttackPerGame" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcDomesticAwayDefencePerGame" Type="decimal" Precision="10" Scale="3" Nullable="false" />
+          <Property Name="calcDesc" Type="text" />
+        </EntityType>
+        <EntityType Name="tournament">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="regionId" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="rating" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_fmatch_season">
+          <End Role="season" Type="Self.season" Multiplicity="1" />
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="season">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="seasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team">
+          <End Role="team" Type="Self.team" Multiplicity="1" />
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="homeTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team_2">
+          <End Role="team" Type="Self.team" Multiplicity="1" />
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="awayTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team_3">
+          <End Role="team" Type="Self.team" Multiplicity="0..1" />
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="winnerTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team_4">
+          <End Role="team" Type="Self.team" Multiplicity="0..1" />
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="loserTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_goal_fmatch">
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="1" />
+          <End Role="goal" Type="Self.goal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fmatch">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="goal">
+              <PropertyRef Name="matchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_goal_team">
+          <End Role="team" Type="Self.team" Multiplicity="1" />
+          <End Role="goal" Type="Self.goal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="goal">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_matchevent_fmatch">
+          <End Role="fmatch" Type="Self.fmatch" Multiplicity="1" />
+          <End Role="matchevent" Type="Self.matchevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fmatch">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="matchevent">
+              <PropertyRef Name="matchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_matchevent_team">
+          <End Role="team" Type="Self.team" Multiplicity="1" />
+          <End Role="matchevent" Type="Self.matchevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="matchevent">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_season_region">
+          <End Role="region" Type="Self.region" Multiplicity="0..1" />
+          <End Role="season" Type="Self.season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="season">
+              <PropertyRef Name="regionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_season_team">
+          <End Role="team" Type="Self.team" Multiplicity="0..1" />
+          <End Role="season" Type="Self.season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="season">
+              <PropertyRef Name="championTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_season_tournament">
+          <End Role="tournament" Type="Self.tournament" Multiplicity="1" />
+          <End Role="season" Type="Self.season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="season">
+              <PropertyRef Name="tournamentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seasontable_season">
+          <End Role="season" Type="Self.season" Multiplicity="1" />
+          <End Role="seasontable" Type="Self.seasontable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="season">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seasontable">
+              <PropertyRef Name="seasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seasontable_team">
+          <End Role="team" Type="Self.team" Multiplicity="1" />
+          <End Role="seasontable" Type="Self.seasontable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seasontable">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_team_region">
+          <End Role="region" Type="Self.region" Multiplicity="1" />
+          <End Role="team" Type="Self.team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="regionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_team_tournament">
+          <End Role="tournament" Type="Self.tournament" Multiplicity="0..1" />
+          <End Role="team" Type="Self.team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="domesticTournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_region">
+          <End Role="region" Type="Self.region" Multiplicity="1" />
+          <End Role="tournament" Type="Self.tournament" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tournament">
+              <PropertyRef Name="regionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="oblivius_mysqlModelStoreContainer">
+          <EntitySet Name="fmatch" EntityType="Self.fmatch" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="goal" EntityType="Self.goal" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="matchevent" EntityType="Self.matchevent" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="pendingmatch" EntityType="Self.pendingmatch" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="region" EntityType="Self.region" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="season" EntityType="Self.season" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="seasontable" EntityType="Self.seasontable" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="team" EntityType="Self.team" Schema="oblivius_mysql" store:Type="Tables" />
+          <EntitySet Name="tournament" EntityType="Self.tournament" Schema="oblivius_mysql" store:Type="Tables" />
+          <AssociationSet Name="FK_fmatch_season" Association="Self.FK_fmatch_season">
+            <End Role="season" EntitySet="season" />
+            <End Role="fmatch" EntitySet="fmatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team" Association="Self.FK_fmatch_team">
+            <End Role="team" EntitySet="team" />
+            <End Role="fmatch" EntitySet="fmatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team_2" Association="Self.FK_fmatch_team_2">
+            <End Role="team" EntitySet="team" />
+            <End Role="fmatch" EntitySet="fmatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team_3" Association="Self.FK_fmatch_team_3">
+            <End Role="team" EntitySet="team" />
+            <End Role="fmatch" EntitySet="fmatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team_4" Association="Self.FK_fmatch_team_4">
+            <End Role="team" EntitySet="team" />
+            <End Role="fmatch" EntitySet="fmatch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_goal_fmatch" Association="Self.FK_goal_fmatch">
+            <End Role="fmatch" EntitySet="fmatch" />
+            <End Role="goal" EntitySet="goal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_goal_team" Association="Self.FK_goal_team">
+            <End Role="team" EntitySet="team" />
+            <End Role="goal" EntitySet="goal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_matchevent_fmatch" Association="Self.FK_matchevent_fmatch">
+            <End Role="fmatch" EntitySet="fmatch" />
+            <End Role="matchevent" EntitySet="matchevent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_matchevent_team" Association="Self.FK_matchevent_team">
+            <End Role="team" EntitySet="team" />
+            <End Role="matchevent" EntitySet="matchevent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_season_region" Association="Self.FK_season_region">
+            <End Role="region" EntitySet="region" />
+            <End Role="season" EntitySet="season" />
+          </AssociationSet>
+          <AssociationSet Name="FK_season_team" Association="Self.FK_season_team">
+            <End Role="team" EntitySet="team" />
+            <End Role="season" EntitySet="season" />
+          </AssociationSet>
+          <AssociationSet Name="FK_season_tournament" Association="Self.FK_season_tournament">
+            <End Role="tournament" EntitySet="tournament" />
+            <End Role="season" EntitySet="season" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seasontable_season" Association="Self.FK_seasontable_season">
+            <End Role="season" EntitySet="season" />
+            <End Role="seasontable" EntitySet="seasontable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seasontable_team" Association="Self.FK_seasontable_team">
+            <End Role="team" EntitySet="team" />
+            <End Role="seasontable" EntitySet="seasontable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_team_region" Association="Self.FK_team_region">
+            <End Role="region" EntitySet="region" />
+            <End Role="team" EntitySet="team" />
+          </AssociationSet>
+          <AssociationSet Name="FK_team_tournament" Association="Self.FK_team_tournament">
+            <End Role="tournament" EntitySet="tournament" />
+            <End Role="team" EntitySet="team" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_region" Association="Self.FK_tournament_region">
+            <End Role="region" EntitySet="region" />
+            <End Role="tournament" EntitySet="tournament" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="oblivius_mysqlModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="mochahost" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="fmatches" EntityType="oblivius_mysqlModel.fmatch" />
+          <EntitySet Name="goals" EntityType="oblivius_mysqlModel.goal" />
+          <EntitySet Name="matchevents" EntityType="oblivius_mysqlModel.matchevent" />
+          <EntitySet Name="pendingmatches" EntityType="oblivius_mysqlModel.pendingmatch" />
+          <EntitySet Name="regions" EntityType="oblivius_mysqlModel.region" />
+          <EntitySet Name="seasons" EntityType="oblivius_mysqlModel.season" />
+          <EntitySet Name="seasontables" EntityType="oblivius_mysqlModel.seasontable" />
+          <EntitySet Name="teams" EntityType="oblivius_mysqlModel.team" />
+          <EntitySet Name="tournaments" EntityType="oblivius_mysqlModel.tournament" />
+          <AssociationSet Name="FK_fmatch_season" Association="oblivius_mysqlModel.FK_fmatch_season">
+            <End Role="season" EntitySet="seasons" />
+            <End Role="fmatch" EntitySet="fmatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team" Association="oblivius_mysqlModel.FK_fmatch_team">
+            <End Role="team" EntitySet="teams" />
+            <End Role="fmatch" EntitySet="fmatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team_2" Association="oblivius_mysqlModel.FK_fmatch_team_2">
+            <End Role="team" EntitySet="teams" />
+            <End Role="fmatch" EntitySet="fmatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team_3" Association="oblivius_mysqlModel.FK_fmatch_team_3">
+            <End Role="team" EntitySet="teams" />
+            <End Role="fmatch" EntitySet="fmatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_fmatch_team_4" Association="oblivius_mysqlModel.FK_fmatch_team_4">
+            <End Role="team" EntitySet="teams" />
+            <End Role="fmatch" EntitySet="fmatches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_goal_fmatch" Association="oblivius_mysqlModel.FK_goal_fmatch">
+            <End Role="fmatch" EntitySet="fmatches" />
+            <End Role="goal" EntitySet="goals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_matchevent_fmatch" Association="oblivius_mysqlModel.FK_matchevent_fmatch">
+            <End Role="fmatch" EntitySet="fmatches" />
+            <End Role="matchevent" EntitySet="matchevents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_goal_team" Association="oblivius_mysqlModel.FK_goal_team">
+            <End Role="team" EntitySet="teams" />
+            <End Role="goal" EntitySet="goals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_matchevent_team" Association="oblivius_mysqlModel.FK_matchevent_team">
+            <End Role="team" EntitySet="teams" />
+            <End Role="matchevent" EntitySet="matchevents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_season_region" Association="oblivius_mysqlModel.FK_season_region">
+            <End Role="region" EntitySet="regions" />
+            <End Role="season" EntitySet="seasons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_team_region" Association="oblivius_mysqlModel.FK_team_region">
+            <End Role="region" EntitySet="regions" />
+            <End Role="team" EntitySet="teams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tournament_region" Association="oblivius_mysqlModel.FK_tournament_region">
+            <End Role="region" EntitySet="regions" />
+            <End Role="tournament" EntitySet="tournaments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_season_team" Association="oblivius_mysqlModel.FK_season_team">
+            <End Role="team" EntitySet="teams" />
+            <End Role="season" EntitySet="seasons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_season_tournament" Association="oblivius_mysqlModel.FK_season_tournament">
+            <End Role="tournament" EntitySet="tournaments" />
+            <End Role="season" EntitySet="seasons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seasontable_season" Association="oblivius_mysqlModel.FK_seasontable_season">
+            <End Role="season" EntitySet="seasons" />
+            <End Role="seasontable" EntitySet="seasontables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_seasontable_team" Association="oblivius_mysqlModel.FK_seasontable_team">
+            <End Role="team" EntitySet="teams" />
+            <End Role="seasontable" EntitySet="seasontables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_team_tournament" Association="oblivius_mysqlModel.FK_team_tournament">
+            <End Role="tournament" EntitySet="tournaments" />
+            <End Role="team" EntitySet="teams" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="fmatch">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="matchDate" Type="DateTime" Nullable="false" />
+          <Property Name="seasonId" Type="Int32" Nullable="false" />
+          <Property Name="homeTeamId" Type="Int32" Nullable="false" />
+          <Property Name="awayTeamId" Type="Int32" Nullable="false" />
+          <Property Name="winnerTeamId" Type="Int32" />
+          <Property Name="loserTeamId" Type="Int32" />
+          <Property Name="desc" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="score" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="homeTeamScore" Type="Int32" Nullable="false" />
+          <Property Name="awayTeamScore" Type="Int32" Nullable="false" />
+          <Property Name="info" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="hasEvents" Type="Int32" Nullable="false" />
+          <Property Name="hasStats" Type="Int32" Nullable="false" />
+          <Property Name="dateCreated" Type="DateTime" Nullable="false" />
+          <Property Name="dateEventsAdded" Type="DateTime" />
+          <NavigationProperty Name="season" Relationship="oblivius_mysqlModel.FK_fmatch_season" FromRole="fmatch" ToRole="season" />
+          <NavigationProperty Name="homeTeam" Relationship="oblivius_mysqlModel.FK_fmatch_team" FromRole="fmatch" ToRole="team" />
+          <NavigationProperty Name="awayTeam" Relationship="oblivius_mysqlModel.FK_fmatch_team_2" FromRole="fmatch" ToRole="team" />
+          <NavigationProperty Name="winnerTeam" Relationship="oblivius_mysqlModel.FK_fmatch_team_3" FromRole="fmatch" ToRole="team" />
+          <NavigationProperty Name="loserTeam" Relationship="oblivius_mysqlModel.FK_fmatch_team_4" FromRole="fmatch" ToRole="team" />
+          <NavigationProperty Name="goals" Relationship="oblivius_mysqlModel.FK_goal_fmatch" FromRole="fmatch" ToRole="goal" />
+          <NavigationProperty Name="matchevents" Relationship="oblivius_mysqlModel.FK_matchevent_fmatch" FromRole="fmatch" ToRole="matchevent" />
+        </EntityType>
+        <EntityType Name="goal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="matchId" Type="Int32" Nullable="false" />
+          <Property Name="index" Type="Int32" Nullable="false" />
+          <Property Name="half" Type="Int32" />
+          <Property Name="teamId" Type="Int32" Nullable="false" />
+          <Property Name="minute" Type="Int32" Nullable="false" />
+          <Property Name="second" Type="Int32" Nullable="false" />
+          <Property Name="score" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="fmatch" Relationship="oblivius_mysqlModel.FK_goal_fmatch" FromRole="goal" ToRole="fmatch" />
+          <NavigationProperty Name="team" Relationship="oblivius_mysqlModel.FK_goal_team" FromRole="goal" ToRole="team" />
+        </EntityType>
+        <EntityType Name="matchevent">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="matchId" Type="Int32" Nullable="false" />
+          <Property Name="index" Type="Int32" Nullable="false" />
+          <Property Name="teamId" Type="Int32" Nullable="false" />
+          <Property Name="minute" Type="Int32" Nullable="false" />
+          <Property Name="second" Type="Int32" Nullable="false" />
+          <Property Name="period" Type="Int32" Nullable="false" />
+          <Property Name="expMinute" Type="Int32" Nullable="false" />
+          <Property Name="x" Type="Decimal" Nullable="false" />
+          <Property Name="y" Type="Decimal" Nullable="false" />
+          <Property Name="type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="success" Type="Boolean" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="flags" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="fmatch" Relationship="oblivius_mysqlModel.FK_matchevent_fmatch" FromRole="matchevent" ToRole="fmatch" />
+          <NavigationProperty Name="team" Relationship="oblivius_mysqlModel.FK_matchevent_team" FromRole="matchevent" ToRole="team" />
+        </EntityType>
+        <EntityType Name="pendingmatch">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="matchDate" Type="DateTime" />
+          <Property Name="result" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="downloadDate" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="region">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="seasons" Relationship="oblivius_mysqlModel.FK_season_region" FromRole="region" ToRole="season" />
+          <NavigationProperty Name="teams" Relationship="oblivius_mysqlModel.FK_team_region" FromRole="region" ToRole="team" />
+          <NavigationProperty Name="tournaments" Relationship="oblivius_mysqlModel.FK_tournament_region" FromRole="region" ToRole="tournament" />
+        </EntityType>
+        <EntityType Name="season">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="tournamentid" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="championTeamId" Type="Int32" />
+          <Property Name="regionId" Type="Int32" />
+          <Property Name="year" Type="Int32" />
+          <Property Name="tableDesc" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="lastTableUpdate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="fmatches" Relationship="oblivius_mysqlModel.FK_fmatch_season" FromRole="season" ToRole="fmatch" />
+          <NavigationProperty Name="region" Relationship="oblivius_mysqlModel.FK_season_region" FromRole="season" ToRole="region" />
+          <NavigationProperty Name="championTeam" Relationship="oblivius_mysqlModel.FK_season_team" FromRole="season" ToRole="team" />
+          <NavigationProperty Name="tournament" Relationship="oblivius_mysqlModel.FK_season_tournament" FromRole="season" ToRole="tournament" />
+          <NavigationProperty Name="seasontables" Relationship="oblivius_mysqlModel.FK_seasontable_season" FromRole="season" ToRole="seasontable" />
+        </EntityType>
+        <EntityType Name="seasontable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="seasonId" Type="Int32" Nullable="false" />
+          <Property Name="teamId" Type="Int32" Nullable="false" />
+          <Property Name="position" Type="Int32" Nullable="false" />
+          <Property Name="teamName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="g" Type="Int32" Nullable="false" />
+          <Property Name="p" Type="Int32" Nullable="false" />
+          <Property Name="w" Type="Int32" Nullable="false" />
+          <Property Name="d" Type="Int32" Nullable="false" />
+          <Property Name="l" Type="Int32" Nullable="false" />
+          <Property Name="gf" Type="Int32" Nullable="false" />
+          <Property Name="ga" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="season" Relationship="oblivius_mysqlModel.FK_seasontable_season" FromRole="seasontable" ToRole="season" />
+          <NavigationProperty Name="team" Relationship="oblivius_mysqlModel.FK_seasontable_team" FromRole="seasontable" ToRole="team" />
+        </EntityType>
+        <EntityType Name="team">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="regionId" Type="Int32" Nullable="false" />
+          <Property Name="domesticTournamentId" Type="Int32" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="calcDomesticRating" Type="Decimal" Nullable="false" />
+          <Property Name="calcInternationalRating" Type="Decimal" Nullable="false" />
+          <Property Name="calcTotalRating" Type="Decimal" Nullable="false" />
+          <Property Name="calcDomesticHomeAttackPerGame" Type="Decimal" Nullable="false" />
+          <Property Name="calcDomesticHomeDefencePerGame" Type="Decimal" Nullable="false" />
+          <Property Name="calcDomesticAwayAttackPerGame" Type="Decimal" Nullable="false" />
+          <Property Name="calcDomesticAwayDefencePerGame" Type="Decimal" Nullable="false" />
+          <Property Name="calcDesc" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="matchesAsHomeTeam" Relationship="oblivius_mysqlModel.FK_fmatch_team" FromRole="team" ToRole="fmatch" />
+          <NavigationProperty Name="matchesAsAwayTeam" Relationship="oblivius_mysqlModel.FK_fmatch_team_2" FromRole="team" ToRole="fmatch" />
+          <NavigationProperty Name="matchesWon" Relationship="oblivius_mysqlModel.FK_fmatch_team_3" FromRole="team" ToRole="fmatch" />
+          <NavigationProperty Name="matchesLost" Relationship="oblivius_mysqlModel.FK_fmatch_team_4" FromRole="team" ToRole="fmatch" />
+          <NavigationProperty Name="goals" Relationship="oblivius_mysqlModel.FK_goal_team" FromRole="team" ToRole="goal" />
+          <NavigationProperty Name="matchevents" Relationship="oblivius_mysqlModel.FK_matchevent_team" FromRole="team" ToRole="matchevent" />
+          <NavigationProperty Name="region" Relationship="oblivius_mysqlModel.FK_team_region" FromRole="team" ToRole="region" />
+          <NavigationProperty Name="seasonsAsChampions" Relationship="oblivius_mysqlModel.FK_season_team" FromRole="team" ToRole="season" />
+          <NavigationProperty Name="seasontables" Relationship="oblivius_mysqlModel.FK_seasontable_team" FromRole="team" ToRole="seasontable" />
+          <NavigationProperty Name="tournament" Relationship="oblivius_mysqlModel.FK_team_tournament" FromRole="team" ToRole="tournament" />
+        </EntityType>
+        <EntityType Name="tournament">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="regionId" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="rating" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="region" Relationship="oblivius_mysqlModel.FK_tournament_region" FromRole="tournament" ToRole="region" />
+          <NavigationProperty Name="seasons" Relationship="oblivius_mysqlModel.FK_season_tournament" FromRole="tournament" ToRole="season" />
+          <NavigationProperty Name="teams" Relationship="oblivius_mysqlModel.FK_team_tournament" FromRole="tournament" ToRole="team" />
+        </EntityType>
+        <Association Name="FK_fmatch_season">
+          <End Type="oblivius_mysqlModel.season" Role="season" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="season">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="seasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="homeTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team_2">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="awayTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team_3">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="0..1" />
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="winnerTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_fmatch_team_4">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="0..1" />
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="fmatch">
+              <PropertyRef Name="loserTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_goal_fmatch">
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.goal" Role="goal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fmatch">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="goal">
+              <PropertyRef Name="matchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_matchevent_fmatch">
+          <End Type="oblivius_mysqlModel.fmatch" Role="fmatch" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.matchevent" Role="matchevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fmatch">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="matchevent">
+              <PropertyRef Name="matchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_goal_team">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.goal" Role="goal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="goal">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_matchevent_team">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.matchevent" Role="matchevent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="matchevent">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_season_region">
+          <End Type="oblivius_mysqlModel.region" Role="region" Multiplicity="0..1" />
+          <End Type="oblivius_mysqlModel.season" Role="season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="season">
+              <PropertyRef Name="regionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_team_region">
+          <End Type="oblivius_mysqlModel.region" Role="region" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="regionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tournament_region">
+          <End Type="oblivius_mysqlModel.region" Role="region" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.tournament" Role="tournament" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="region">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tournament">
+              <PropertyRef Name="regionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_season_team">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="0..1" />
+          <End Type="oblivius_mysqlModel.season" Role="season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="season">
+              <PropertyRef Name="championTeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_season_tournament">
+          <End Type="oblivius_mysqlModel.tournament" Role="tournament" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.season" Role="season" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="season">
+              <PropertyRef Name="tournamentid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seasontable_season">
+          <End Type="oblivius_mysqlModel.season" Role="season" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.seasontable" Role="seasontable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="season">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seasontable">
+              <PropertyRef Name="seasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_seasontable_team">
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="1" />
+          <End Type="oblivius_mysqlModel.seasontable" Role="seasontable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="seasontable">
+              <PropertyRef Name="teamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_team_tournament">
+          <End Type="oblivius_mysqlModel.tournament" Role="tournament" Multiplicity="0..1" />
+          <End Type="oblivius_mysqlModel.team" Role="team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tournament">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="team">
+              <PropertyRef Name="domesticTournamentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="oblivius_mysqlModelStoreContainer" CdmEntityContainer="mochahost">
+          <EntitySetMapping Name="fmatches">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.fmatch">
+              <MappingFragment StoreEntitySet="fmatch">
+                <ScalarProperty Name="dateEventsAdded" ColumnName="dateEventsAdded" />
+                <ScalarProperty Name="dateCreated" ColumnName="dateCreated" />
+                <ScalarProperty Name="hasStats" ColumnName="hasStats" />
+                <ScalarProperty Name="hasEvents" ColumnName="hasEvents" />
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="awayTeamScore" ColumnName="awayTeamScore" />
+                <ScalarProperty Name="homeTeamScore" ColumnName="homeTeamScore" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="desc" ColumnName="desc" />
+                <ScalarProperty Name="loserTeamId" ColumnName="loserTeamId" />
+                <ScalarProperty Name="winnerTeamId" ColumnName="winnerTeamId" />
+                <ScalarProperty Name="awayTeamId" ColumnName="awayTeamId" />
+                <ScalarProperty Name="homeTeamId" ColumnName="homeTeamId" />
+                <ScalarProperty Name="seasonId" ColumnName="seasonId" />
+                <ScalarProperty Name="matchDate" ColumnName="matchDate" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="goals">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.goal">
+              <MappingFragment StoreEntitySet="goal">
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="second" ColumnName="second" />
+                <ScalarProperty Name="minute" ColumnName="minute" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+                <ScalarProperty Name="half" ColumnName="half" />
+                <ScalarProperty Name="index" ColumnName="index" />
+                <ScalarProperty Name="matchId" ColumnName="matchId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="matchevents">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.matchevent">
+              <MappingFragment StoreEntitySet="matchevent">
+                <ScalarProperty Name="flags" ColumnName="flags" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="success" ColumnName="success" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="expMinute" ColumnName="expMinute" />
+                <ScalarProperty Name="period" ColumnName="period" />
+                <ScalarProperty Name="second" ColumnName="second" />
+                <ScalarProperty Name="minute" ColumnName="minute" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+                <ScalarProperty Name="index" ColumnName="index" />
+                <ScalarProperty Name="matchId" ColumnName="matchId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pendingmatches">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.pendingmatch">
+              <MappingFragment StoreEntitySet="pendingmatch">
+                <ScalarProperty Name="downloadDate" ColumnName="downloadDate" />
+                <ScalarProperty Name="result" ColumnName="result" />
+                <ScalarProperty Name="matchDate" ColumnName="matchDate" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="regions">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.region">
+              <MappingFragment StoreEntitySet="region">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seasons">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.season">
+              <MappingFragment StoreEntitySet="season">
+                <ScalarProperty Name="lastTableUpdate" ColumnName="lastTableUpdate" />
+                <ScalarProperty Name="tableDesc" ColumnName="tableDesc" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="regionId" ColumnName="regionId" />
+                <ScalarProperty Name="championTeamId" ColumnName="championTeamId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="tournamentid" ColumnName="tournamentid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="seasontables">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.seasontable">
+              <MappingFragment StoreEntitySet="seasontable">
+                <ScalarProperty Name="ga" ColumnName="ga" />
+                <ScalarProperty Name="gf" ColumnName="gf" />
+                <ScalarProperty Name="l" ColumnName="l" />
+                <ScalarProperty Name="d" ColumnName="d" />
+                <ScalarProperty Name="w" ColumnName="w" />
+                <ScalarProperty Name="p" ColumnName="p" />
+                <ScalarProperty Name="g" ColumnName="g" />
+                <ScalarProperty Name="teamName" ColumnName="teamName" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="teamId" ColumnName="teamId" />
+                <ScalarProperty Name="seasonId" ColumnName="seasonId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teams">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.team">
+              <MappingFragment StoreEntitySet="team">
+                <ScalarProperty Name="calcDesc" ColumnName="calcDesc" />
+                <ScalarProperty Name="calcDomesticAwayDefencePerGame" ColumnName="calcDomesticAwayDefencePerGame" />
+                <ScalarProperty Name="calcDomesticAwayAttackPerGame" ColumnName="calcDomesticAwayAttackPerGame" />
+                <ScalarProperty Name="calcDomesticHomeDefencePerGame" ColumnName="calcDomesticHomeDefencePerGame" />
+                <ScalarProperty Name="calcDomesticHomeAttackPerGame" ColumnName="calcDomesticHomeAttackPerGame" />
+                <ScalarProperty Name="calcTotalRating" ColumnName="calcTotalRating" />
+                <ScalarProperty Name="calcInternationalRating" ColumnName="calcInternationalRating" />
+                <ScalarProperty Name="calcDomesticRating" ColumnName="calcDomesticRating" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="domesticTournamentId" ColumnName="domesticTournamentId" />
+                <ScalarProperty Name="regionId" ColumnName="regionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tournaments">
+            <EntityTypeMapping TypeName="oblivius_mysqlModel.tournament">
+              <MappingFragment StoreEntitySet="tournament">
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="regionId" ColumnName="regionId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="DDLGenerationTemplate" Value="$(VSEFTools)\DBGen\SSDLToMySQL.tt" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,94 @@
+﻿@model List<GoalsWeb.Models.team>
+
+@{
+    ViewBag.Title = "Home Page";
+
+    List<GoalsWeb.Models.region> allRegions = (List<GoalsWeb.Models.region>)ViewBag.allRegions;
+    List<GoalsWeb.Models.tournament> allTournaments = (List<GoalsWeb.Models.tournament>)ViewBag.allTournaments;
+}
+
+<div class="container margin-top-30">
+    <div class="row">
+
+
+        <ul class="nav nav-pills warning">
+
+            @{
+                var classActive = "active";
+                var expanded = "true";
+                foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating).Union(allTournaments.Where(t => t.rating > 10)))
+                {
+                    <li class="@classActive"><a data-toggle="tab" class="@classActive" href="#@tournament.id" aria-expanded="@expanded">@tournament.name </a></li>
+                    classActive = "";
+                    expanded = "false";
+                }
+
+            }
+
+        </ul>
+
+        <div class="tab-content margin-top-30">
+
+            @{
+                classActive = "in active";
+                foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating).Union(allTournaments.Where(t => t.rating > 10)))
+                {
+                    <div id="@tournament.id" class="tab-pane fade in active">
+                        @{
+                            List<GoalsWeb.Models.team>
+                                regionTeams = Model.Where(t => t.regionId == tournament.regionId).OrderByDescending(t => t.calcDomesticRating).ThenBy(t => t.name).ToList();
+
+
+                            if (regionTeams.Count > 0)
+                            {
+
+                                <h3>@tournament.name </h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+
+                                            </th>
+                                            <th>
+                                                Dom. Rating
+                                            </th>
+                                            <th>
+                                                Int. Rating
+                                            </th>
+                                            <th>
+                                                GF
+                                            </th>
+                                            <th>
+                                                GA
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (GoalsWeb.Models.team team in regionTeams)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.ActionLink(team.name, "DetailsByName", "teams", new { name = team.name }, null)
+                                                </td>
+                                                <td>@team.calcDomesticRating</td>
+                                                <td>@team.calcInternationalRating </td>
+                                                <td>@((team.calcDomesticHomeAttackPerGame + team.calcDomesticAwayAttackPerGame) / 2)</td>
+                                                <td>@((team.calcDomesticHomeDefencePerGame + team.calcDomesticAwayDefencePerGame) / 2)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+
+                        }
+                    </div>
+
+                                classActive = "";
+                            }
+            }
+        </div>
+
+
+
+    </div>
+</div>

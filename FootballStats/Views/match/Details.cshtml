@@ -1,0 +1,172 @@
+﻿@model GoalsWeb.Models.fmatch
+
+@{
+    ViewBag.Title = Model.desc;
+
+}
+
+<div class="container ">
+
+    <div class="panel panel-info margin-top-30 ">
+        <div class="panel-heading text-center ">
+            <div class="panel-title hidden-xs">
+                <span class="text-muted" style="float:left">@Model.matchDate.ToLongDateString()</span>
+                <span style="float:right">
+
+                    @Html.ActionLink(Model.season.region.name, "Index", "rating", new { type = "domestic", countryName = Model.season.region.name }, null) &gt;
+                    @Html.ActionLink(Model.season.tournament.name, "Details", "season", new { name = Model.season.tournament.name }, null)
+
+                </span>
+                <br class="clearfix" />
+            </div>
+
+            <div class="panel-title visible-xs hidden-lg hidden-md hidden-sm ">
+                <span class="text-muted" style="float:left">@Model.matchDate.ToLongDateString()</span>
+                @Html.ActionLink(Model.season.region.name, "Index", "rating", new { type = "domestic", countryName = Model.season.region.name }, null) &gt;
+                @Html.ActionLink(Model.season.tournament.name, "Details", "season", new { name = Model.season.tournament.name }, null)
+            </div>
+
+
+        </div>
+
+        <div class="panel-body text-center">
+
+            <div class="hidden-xs">
+                <div class="col-md-5 col-sm-5 text-right ">
+                    <h2>@Html.ActionLink(Model.homeTeam.name, "DetailsByName", "teams", new { name = Model.homeTeam.name }, null)</h2>
+                </div>
+                <div class="col-md-2 col-sm-2 text-center">
+                    <h2><small>vs</small></h2>
+                </div>
+                <div class="col-md-5 col-sm-5 text-left">
+                    <h2>@Html.ActionLink(Model.awayTeam.name, "DetailsByName", "teams", new { name = Model.awayTeam.name }, null)</h2>
+                </div>
+
+                <div class="col-md-5 col-sm-5 text-right ">
+                    <h1 class="margin-top-0 ">@Html.DisplayFor(model => model.homeTeamScore) </h1>
+                </div>
+                <div class="col-md-2 col-sm-2 text-center align-middle">
+
+                </div>
+                <div class="col-md-5 col-sm-5 text-left">
+                    <h1 class="margin-top-0 ">@Html.DisplayFor(model => model.awayTeamScore)</h1>
+                </div>
+            </div>
+            <div class="visible-xs hidden-md hidden-lg hidden-sm">
+                <div class="col-xs-12 text-left">
+                    <h3>
+                        @Html.ActionLink(Model.homeTeam.name, "DetailsByName", "teams", new { name = Model.homeTeam.name }, null)
+                        <small>@Html.DisplayFor(model => model.homeTeamScore) </small>
+                    </h3>
+                </div>
+                <div class="col-xs-12 text-right">
+                    <h3>
+                        @Html.ActionLink(Model.awayTeam.name, "DetailsByName", "teams", new { name = Model.awayTeam.name }, null)
+                        <small>@Html.DisplayFor(model => model.awayTeamScore) </small>
+                    </h3>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <table class="table table-condensed table-striped">
+                    <tbody>
+
+                        @{
+
+                            foreach (GoalsWeb.Models.goal goal in Model.goals.OrderBy(g => g.index))
+                            {
+                                var goalImage = " <img src='/Content/Images/football.png' /> ";
+                                var homeScore = goal.teamId == Model.homeTeamId ? goal.score + goalImage : "";
+                                var awayScore = goal.teamId == Model.awayTeamId ? goalImage + goal.score : "";
+
+                                <tr>
+
+                                    <td class="text-right align-middle" style="width:45%">
+                                        @Html.Raw(homeScore)
+                                    </td>
+                                    <td class="text-center" style="width:5%">
+                                        <span class="label label-default">@goal.minute'</span>
+                                    </td>
+                                    <td class="text-left align-middle" style="width:45%">
+                                        @Html.Raw(awayScore)
+                                    </td>
+                                </tr>
+
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    @{
+        if (ViewBag.events.Count > 0)
+        {
+
+            <div class="col-md-6 col-sm-6 col-xs-6 no-padding">
+                <button type="button" class="btn btn-primary collapsed" data-toggle="collapse" data-target="#Timeline" aria-expanded="false">Match Timeline</button>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 text-right no-padding ">
+                @Html.ActionLink("Replay Match", "Details", "replayMatch", new { id = Model.id }, new { @class = "btn btn-primary" })
+            </div>
+
+
+            <div id="Timeline" class="collapse" aria-expanded="false" style="height: 0px;">
+
+                <table class="table table-condensed table-striped ">
+                    <thead>
+                        <tr class="hidden-xs">
+                            <th>Team</th>
+                            <th>Minute</th>
+                            <th>Location</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+
+                            foreach (GoalsWeb.Models.matchevent mevent in ViewBag.events)
+                            {
+
+                                <tr>
+                                    <td>
+                                        @mevent.team.name
+                                    </td>
+                                    <td>
+                                        @mevent.minute' @mevent.second"
+                                    </td>
+                                    <td>
+                                        @mevent.x , @mevent.y
+                                    </td>
+                                    <td>
+                                        @mevent.type
+                                    </td>
+                                </tr>
+
+
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+
+
+            </div>
+
+
+                            }
+    }
+
+
+</div>

@@ -1,0 +1,133 @@
+﻿
+@{
+
+    GoalsWeb.Models.team team = (GoalsWeb.Models.team)ViewBag.team;
+    GoalsWeb.Models.region country = (GoalsWeb.Models.region)ViewBag.country;
+
+    ViewBag.Title = string.Format("Ratings {0}", team != null ? team.region.name : "");
+
+
+
+
+}
+
+@functions{
+    public string GetTabClass(string tabid)
+    {
+        if (tabid == ViewBag.type)
+            return "active";
+        else
+            return "";
+    }
+    public string GetTabContentClass(string tabid)
+    {
+        if (tabid == ViewBag.type)
+            return "in active";
+        else
+            return "";
+    }
+
+}
+
+
+
+<div class="container margin-top-30">
+
+    <ul class="nav nav-pills">
+        @{
+            if (country != null)
+            {
+                <li class='@GetTabClass("domestic")'><a data-toggle="tab" href="#domestic">@country.name Ratings</a></li>
+            }
+        }
+
+        <li class='@GetTabClass("international")'><a data-toggle="tab" href="#international">International Ratings</a></li>
+        <li class='@GetTabClass("total")'><a data-toggle="tab" href="#total">Total Ratings</a></li>
+    </ul>
+
+    <div class="tab-content margin-top-30">
+
+        @{
+            if (country != null)
+            {
+                <div id="domestic" class='tab-pane fade @GetTabContentClass("domestic")'>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <table class="table table-striped">
+                                <tbody>
+                                    @{
+                                        var posDomestic = 0;
+                                    }
+                                    @foreach (GoalsWeb.Models.team t in (List<GoalsWeb.Models.team>)ViewBag.domesticRatings)
+                                    {
+                                        var cellClass = team != null && team.id == t.id ? "bg-info font-weight-bold" : "";
+                                        posDomestic++;
+                                        <tr>
+                                            <td class="@cellClass col-md-6"><strong>@posDomestic.</strong> @Html.ActionLink(t.name, "DetailsByName", "teams", new { name = t.name }, null)</td>
+                                            <td class="@cellClass col-md-6 text-center font-weight-bold">@t.calcDomesticRating  </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+
+        <div id="international" class='tab-pane fade @GetTabContentClass("international")'>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <table class="table table-striped">
+                        <tbody>
+                            @{
+                                var posInternational = 0;
+                            }
+                            @foreach (GoalsWeb.Models.team t in (List<GoalsWeb.Models.team>)ViewBag.internationalRatings)
+                            {
+                                var cellClass = team != null && team.id == t.id ? "bg-info font-weight-bold" : "";
+                                posInternational++;
+                                <tr>
+                                    <td class="@cellClass col-md-4"><strong>@posInternational.</strong> @Html.ActionLink(t.name, "DetailsByName", "teams", new { name = t.name }, null)</td>
+                                    <td class="@cellClass col-md-4 text-center">@Html.ActionLink(t.region.name, "Index", "rating", new { type = "domestic", countryName = t.region.name }, null)</td>
+                                    <td class="@cellClass col-md-4 text-center font-weight-bold">@t.calcInternationalRating </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="total" class='tab-pane fade @GetTabContentClass("total")'>
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <table class="table table-striped">
+                        <tbody>
+                            @{
+                                var posTotal = 0;
+                            }
+                            @foreach (GoalsWeb.Models.team t in (List<GoalsWeb.Models.team>)ViewBag.totalRatings)
+                            {
+                                var cellClass = team != null && team.id == t.id ? "bg-info font-weight-bold" : "";
+                                posTotal++;
+                                <tr>
+                                    <td class="@cellClass col-md-4"><strong>@posTotal.</strong> @Html.ActionLink(t.name, "DetailsByName", "teams", new { name = t.name }, null)</td>
+                                    <td class="@cellClass col-md-4 text-center">@Html.ActionLink(t.region.name, "Index", "rating", new { type = "domestic", countryName = t.region.name }, null)</td>
+                                    <td class="@cellClass col-md-4 text-center font-weight-bold">@t.calcTotalRating   </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>

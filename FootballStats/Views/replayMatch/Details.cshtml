@@ -1,0 +1,235 @@
+﻿@model GoalsWeb.Models.fmatch
+
+@{
+    ViewBag.Title = Model.desc;
+
+}
+
+
+@section scripts
+{
+
+
+    @{
+        System.Text.StringBuilder sbEvents = new System.Text.StringBuilder();
+        int howManyEvents = ViewBag.events.Count;
+        int index = 0;
+        foreach (GoalsWeb.Models.matchevent me in ViewBag.events)
+        {
+            var team = me.teamId == Model.homeTeam.id ? "h" : "a";
+            var minute = Math.Abs(me.minute);
+            var second = Math.Abs(me.second);
+            var X = Math.Abs(me.x);
+            var Y = Math.Abs(me.y);
+            var type = me.type;
+
+            var appendThis = string.Format("{0} m: {1}, s: {2}, t: '{3}', x: {4}, y: {5}, a: '{6}' {7}", "{", minute, second, team, X, Y, type, "}");
+            sbEvents.Append(appendThis);
+
+            index++;
+            if (index < howManyEvents)
+            {
+                sbEvents.Append(",");
+            }
+        }
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            var events = [
+                @Html.Raw(sbEvents.ToString())
+            ];
+
+            var pitchImageDimensions = { w: 700, h: 480 };
+
+            if ($(window).width() < 400) {
+                pitchImageDimensions = { w: 240, h: 165 }
+            } else if ($(window).width() < 670) {
+                pitchImageDimensions = { w: 300, h: 206 }
+            } else 
+
+            var animationDuration = 300;
+            var pitchLeftTop = { x: pitchImageDimensions.w * 0.0275, y: pitchImageDimensions.h * 0.0401 };
+            var pitchDimensions = { w: pitchImageDimensions.w - 2 * pitchLeftTop.x, h: pitchImageDimensions.h - 2 * pitchLeftTop.y };
+
+            $("#pitch").css("width", pitchImageDimensions.w + "px").css("height", pitchImageDimensions.h + "px");
+
+            var ball = null;
+            var eventIndex = 0;
+            var gameInterval = setInterval(MoveBall, animationDuration);
+
+            function MoveBall() {
+
+                var event = events[eventIndex];
+                var pixel = XYToPixel(event.x, event.y);
+
+                if (ball == null) {
+                    ball = $("<div/>").attr("id", "Ball");
+                    ball.css("position", "absolute").css("left", pixel.x).css("top", pixel.y).html("<img src='/Content/Images/football.png' />");
+                    $("#pitch").append(ball);
+                } else {
+
+                    var possesionChanged = false;
+                    if (eventIndex > 0) {
+                        if (events[eventIndex - 1].t != event.t)
+                            possesionChanged = true;
+                    }
+
+                    if (possesionChanged) {
+
+                        ball.fadeToggle("fast", function () {
+                            ball.css("left", pixel.x).css("top", pixel.y);
+                            ball.show();
+                        });
+                    } else {
+
+                        ball.animate({
+                            left: pixel.x,
+                            top: pixel.y,
+                        }, animationDuration);
+                    }
+
+
+                }
+
+                $(".currentMinute").html(event.m + "' " + event.s + "\"");
+
+                if (event.t == "h") {
+                    $(".homeTeam").css("font-weight", "bold").css("text-decoration", "overline");
+                    $(".awayTeam").css("font-weight", "normal").css("text-decoration", "none");
+
+                    $(".homeAction").html(event.a);
+                    $(".awayAction").html("&nbsp;");
+
+                } else {
+                    $(".awayTeam").css("font-weight", "bold").css("text-decoration", "overline");
+                    $(".homeTeam").css("font-weight", "normal").css("text-decoration", "none");
+
+                    $(".homeAction").html("&nbsp;");
+                    $(".awayAction").html(event.a);
+                }
+
+                if (event.a == "Goal") {
+                    var scoreLabel = (event.t == "h") ? $(".homeScore") : $(".awayScore");
+                    scoreLabel.html(parseInt(scoreLabel.html()) + 1);
+                }
+
+                eventIndex++;
+                if (eventIndex == events.length) {
+                    clearInterval(gameInterval);
+                }
+
+            }
+
+
+
+
+            function XYToPixel(x, y) {
+
+                var pixelX = pitchLeftTop.x + pitchDimensions.w * (x / 100);
+                var pixelY = pitchLeftTop.y + pitchDimensions.h * (y / 100);
+
+                return {
+                    x: pixelX,
+                    y: pixelY
+                };
+            }
+
+
+        });
+    </script>
+}
+
+<div class="container ">
+
+    <div class="panel panel-info margin-top-30 ">
+        <div class="panel-heading  ">
+            <div class="panel-title hidden-xs text-center">
+                <span class="text-muted" style="float:left">@Model.matchDate.ToLongDateString()</span>
+                <span style="float:right">
+
+                    @Html.ActionLink(Model.season.region.name, "Index", "rating", new { type = "domestic", countryName = Model.season.region.name }, null) &gt;
+                    @Html.ActionLink(Model.season.tournament.name, "Details", "season", new { name = Model.season.tournament.name }, null)
+
+                </span>
+                <br class="clearfix" />
+            </div>
+
+            <div class="panel-title visible-xs hidden-lg hidden-md hidden-sm ">
+                <span class="text-muted">@Model.matchDate.ToLongDateString()</span>
+                @Html.ActionLink(Model.season.region.name, "Index", "rating", new { type = "domestic", countryName = Model.season.region.name }, null) &gt;
+                @Html.ActionLink(Model.season.tournament.name, "Details", "season", new { name = Model.season.tournament.name }, null)
+            </div>
+        </div>
+
+        <div class="panel-body text-center">
+
+            <div class="hidden-xs">
+                <div class="col-md-5 col-sm-5 text-right ">
+                    <h2 class="margin-top-0 homeTeam">@Html.ActionLink(Model.homeTeam.name, "DetailsByName", "teams", new { name = Model.homeTeam.name }, null)</h2>
+                </div>
+                <div class="col-md-2 col-sm-2 text-center">
+                    <h2 class="margin-top-0 "><small>vs</small></h2>
+                </div>
+                <div class="col-md-5 col-sm-5 text-left">
+                    <h2 class="margin-top-0 awayTeam">@Html.ActionLink(Model.awayTeam.name, "DetailsByName", "teams", new { name = Model.awayTeam.name }, null)</h2>
+                </div>
+
+                <div class="col-md-5 col-sm-5 text-right ">
+                    <h1 class="margin-top-0"><small><span class="text-muted homeAction">&nbsp;</span></small> <span class="homeScore">0</span></h1>
+                </div>
+                <div class="col-md-2 col-sm-2 text-center">
+                    <h3 class="margin-top-0"><span class="label label-default currentMinute">0'</span></h3>
+                </div>
+                <div class="col-md-5 col-sm-5 text-left">
+                    <h1 class="margin-top-0 "><span class="awayScore">0</span> <small><span class="text-muted awayAction "></span></small></h1>
+                </div>
+            </div>
+
+            <div class="visible-xs hidden-md hidden-lg hidden-sm">
+                <div class="col-xs-3">
+                    <h4 class="margin-top-0"><span class="label label-default currentMinute">0'</span></h4>
+
+                </div>
+
+                <div class="col-xs-9">
+                    <div class="col-xs-12">
+                        <span class="homeTeam">
+                            <strong>@Html.ActionLink(Model.homeTeam.name, "DetailsByName", "teams", new { name = Model.homeTeam.name }, null)</strong>
+                        </span>
+                        <span class="homeScore">0</span>
+                    </div>
+                    <div class="col-xs-12">
+                        <span class="text-muted homeAction" style="min-height:20px;">&nbsp;</span>
+                    </div>
+                    <div class="col-xs-12">
+                        <span class="awayTeam">
+                            <strong>@Html.ActionLink(Model.awayTeam.name, "DetailsByName", "teams", new { name = Model.awayTeam.name }, null)</strong>
+                        </span>
+                        <span class="awayScore">0</span>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <span class="text-muted awayAction" style="min-height:20px;">&nbsp;</span>
+                    </div>
+                </div>
+                <br class="clearfix" />
+            </div>
+
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div id="pitch" style="position:relative;margin: 0 auto; background:url(/Content/Images/pitch.png);background-size: 100%;">
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
