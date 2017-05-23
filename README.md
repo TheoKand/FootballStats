@@ -8,6 +8,10 @@ http://goalsweb20170519023933.azurewebsites.net/
 
 Screenshots:
 
+https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchDetails.png
+https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchReplay.png
+https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/seasonDetails.png
+https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamDetails.png
 
 # Technologies
 The project is built using the following technologies:
