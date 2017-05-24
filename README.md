@@ -21,6 +21,7 @@ The project is built using the following technologies:
 - Bootstrap 3.3
 - Entity Framework 6.1
 - ADO.NET Entity Data Model
+- AngularJS
 - MySql
 - JQuery 3.1
 
