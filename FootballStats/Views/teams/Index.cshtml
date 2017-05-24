@@ -7,88 +7,112 @@
     List<GoalsWeb.Models.tournament> allTournaments = (List<GoalsWeb.Models.tournament>)ViewBag.allTournaments;
 }
 
-<div class="container margin-top-30">
+
+
+@{
+    System.Text.StringBuilder sbTeams = new System.Text.StringBuilder();
+    foreach (GoalsWeb.Models.team team in Model)
+    {
+        sbTeams.AppendFormat("{0}name:'{1}',rating:{2},tournamentId:{3},gf:{4},ga:{5}{6},", "{", team.name, team.calcDomesticRating, team.domesticTournamentId ?? 0, (team.calcDomesticHomeAttackPerGame + team.calcDomesticAwayAttackPerGame) / 2, (team.calcDomesticHomeDefencePerGame + team.calcDomesticAwayDefencePerGame) / 2, "}");
+    }
+    sbTeams.Remove(sbTeams.Length - 1, 1);
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script type="text/javascript">
+
+    var app = angular.module("footballStats", []);
+    app.controller("teamsController", function ($scope) {
+        $scope.teams = [
+            @Html.Raw(sbTeams.ToString())
+        ]
+    });
+
+</script>
+
+
+<div class="container margin-top-30" ng-app="footballStats" ng-controller="teamsController">
     <div class="row">
 
+        <div class="col-md-9 col-sm-9 col-xs-12">
 
-        <ul class="nav nav-pills warning">
+            <ul class="nav nav-pills warning">
 
-            @{
-                var classActive = "active";
-                var expanded = "true";
-                foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating).Union(allTournaments.Where(t => t.rating > 10)))
-                {
-                    <li class="@classActive"><a data-toggle="tab" class="@classActive" href="#@tournament.id" aria-expanded="@expanded">@tournament.name </a></li>
-                    classActive = "";
-                    expanded = "false";
+                @{
+                    var classActive = "active";
+                    var expanded = "true";
+                    foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating).Union(allTournaments.Where(t => t.rating > 10)))
+                    {
+                        <li class="@classActive"><a data-toggle="tab" class="@classActive" href="#@tournament.id" aria-expanded="@expanded">@tournament.name </a></li>
+                        classActive = "";
+                        expanded = "false";
+                    }
+
                 }
 
-            }
+            </ul>
 
-        </ul>
+        </div>
+        <div class="col-md-3 col-sm-9 col-xs-12 text-right">
 
-        <div class="tab-content margin-top-30">
+            <input id="txtTeamFilter" type="text" class="form-control" ng-model="teamName" placeholder="type to filter" />
 
-            @{
-                classActive = "in active";
-                foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating).Union(allTournaments.Where(t => t.rating > 10)))
-                {
-                    <div id="@tournament.id" class="tab-pane fade in active">
-                        @{
-                            List<GoalsWeb.Models.team>
-                                regionTeams = Model.Where(t => t.regionId == tournament.regionId).OrderByDescending(t => t.calcDomesticRating).ThenBy(t => t.name).ToList();
-
-
-                            if (regionTeams.Count > 0)
-                            {
-
-                                <h3>@tournament.name </h3>
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>
-
-                                            </th>
-                                            <th>
-                                                Dom. Rating
-                                            </th>
-                                            <th>
-                                                Int. Rating
-                                            </th>
-                                            <th>
-                                                GF
-                                            </th>
-                                            <th>
-                                                GA
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (GoalsWeb.Models.team team in regionTeams)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.ActionLink(team.name, "DetailsByName", "teams", new { name = team.name }, null)
-                                                </td>
-                                                <td>@team.calcDomesticRating</td>
-                                                <td>@team.calcInternationalRating </td>
-                                                <td>@((team.calcDomesticHomeAttackPerGame + team.calcDomesticAwayAttackPerGame) / 2)</td>
-                                                <td>@((team.calcDomesticHomeDefencePerGame + team.calcDomesticAwayDefencePerGame) / 2)</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-
-                        }
-                    </div>
-
-                                classActive = "";
-                            }
-            }
         </div>
 
+        <div class="col-md-12 col-lg-12 col-xs-12">
 
 
+            <div class="tab-content margin-top-30">
+
+                @{
+                    classActive = "in active";
+                    foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating))
+                    {
+                        <div id="@tournament.id" class="tab-pane fade in active">
+                            @{
+                                List<GoalsWeb.Models.team> regionTeams = Model.Where(t => t.regionId == tournament.regionId).OrderByDescending(t => t.calcDomesticRating).ThenBy(t => t.name).ToList();
+
+
+                                if (regionTeams.Count > 0)
+                                {
+                                    <h3>@tournament.name </h3>
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>
+
+                                                </th>
+                                                <th>
+                                                    Domestic Rating
+                                                </th>
+                                                <th>
+                                                    GF
+                                                </th>
+                                                <th>
+                                                    GA
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="team in teams | filter: { tournamentId: @tournament.id } | filter: { name: teamName }">
+                                                <td><a ng-href="/team/details/{{team.name}}">{{team.name}}</a></td>
+                                                <td>{{team.rating}}</td>
+                                                <td>{{team.gf}}</td>
+                                                <td>{{team.ga}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                }
+
+                            }
+                        </div>
+
+                                    classActive = "";
+                                }
+                }
+            </div>
+
+
+        </div>
     </div>
 </div>
