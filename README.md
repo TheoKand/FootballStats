@@ -12,6 +12,7 @@ https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matc
 https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchReplay.png
 https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/seasonDetails.png
 https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamDetails.png
+https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamsList.png
 
 # Technologies
 The project is built using the following technologies:
