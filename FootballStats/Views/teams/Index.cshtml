@@ -8,16 +8,6 @@
 }
 
 
-
-@{
-    System.Text.StringBuilder sbTeams = new System.Text.StringBuilder();
-    foreach (GoalsWeb.Models.team team in Model)
-    {
-        sbTeams.AppendFormat("{0}name:'{1}',rating:{2},tournamentId:{3},gf:{4},ga:{5}{6},", "{", team.name, team.calcDomesticRating, team.domesticTournamentId ?? 0, (team.calcDomesticHomeAttackPerGame + team.calcDomesticAwayAttackPerGame) / 2, (team.calcDomesticHomeDefencePerGame + team.calcDomesticAwayDefencePerGame) / 2, "}");
-    }
-    sbTeams.Remove(sbTeams.Length - 1, 1);
-}
-
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script type="text/javascript">
 
