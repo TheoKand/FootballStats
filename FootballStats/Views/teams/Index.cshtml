@@ -1,6 +1,4 @@
-﻿@model List<GoalsWeb.Models.team>
-
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 
     List<GoalsWeb.Models.region> allRegions = (List<GoalsWeb.Models.region>)ViewBag.allRegions;
@@ -61,46 +59,39 @@
                     foreach (GoalsWeb.Models.tournament tournament in allTournaments.Where(t => t.rating < 10).OrderByDescending(t => t.rating))
                     {
                         <div id="@tournament.id" class="tab-pane fade in active">
-                            @{
-                                List<GoalsWeb.Models.team> regionTeams = Model.Where(t => t.regionId == tournament.regionId).OrderByDescending(t => t.calcDomesticRating).ThenBy(t => t.name).ToList();
 
+                            <h3>@tournament.name </h3>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
 
-                                if (regionTeams.Count > 0)
-                                {
-                                    <h3>@tournament.name </h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>
+                                        </th>
+                                        <th>
+                                            Domestic Rating
+                                        </th>
+                                        <th>
+                                            GF
+                                        </th>
+                                        <th>
+                                            GA
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="team in teams | filter: { tournamentId: @tournament.id } | filter: { name: teamName }">
+                                        <td><a ng-href="/team/details/{{team.name}}">{{team.name}}</a></td>
+                                        <td>{{team.rating}}</td>
+                                        <td>{{team.gf}}</td>
+                                        <td>{{team.ga}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                                                </th>
-                                                <th>
-                                                    Domestic Rating
-                                                </th>
-                                                <th>
-                                                    GF
-                                                </th>
-                                                <th>
-                                                    GA
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="team in teams | filter: { tournamentId: @tournament.id } | filter: { name: teamName }">
-                                                <td><a ng-href="/team/details/{{team.name}}">{{team.name}}</a></td>
-                                                <td>{{team.rating}}</td>
-                                                <td>{{team.gf}}</td>
-                                                <td>{{team.ga}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                }
-
-                            }
                         </div>
 
-                                    classActive = "";
-                                }
+                        classActive = "";
+                    }
                 }
             </div>
 

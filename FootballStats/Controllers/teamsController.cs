@@ -29,7 +29,7 @@ namespace GoalsWeb.Controllers
             ViewBag.allRegions = db.regions.ToList();
             ViewBag.allTournaments = db.tournaments.ToList();
 
-            return View(await db.teams.ToListAsync());
+            return View();
         }
 
 
