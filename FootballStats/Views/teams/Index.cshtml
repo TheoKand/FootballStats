@@ -22,10 +22,12 @@
 <script type="text/javascript">
 
     var app = angular.module("footballStats", []);
-    app.controller("teamsController", function ($scope) {
-        $scope.teams = [
-            @Html.Raw(sbTeams.ToString())
-        ]
+    app.controller("teamsController", function ($scope, $http) {
+
+        $http.get('/teams/GetTeams').success(function (data) {
+            $scope.teams = data;
+        });
+
     });
 
 </script>

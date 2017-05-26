@@ -16,6 +16,13 @@ namespace GoalsWeb.Controllers
         private mochahost db = new mochahost();
         public readonly int PAGE_SIZE = 20;
 
+        public JsonResult GetTeams()
+        {
+            List<team> allTeams = db.teams.ToList();
+            var simpleTeamList = allTeams.Select(x => new { name = x.name, tournamentId = x.domesticTournamentId, rating = x.calcDomesticRating ,gf = (x.calcDomesticHomeAttackPerGame + x.calcDomesticAwayAttackPerGame) / 2, ga = (x.calcDomesticHomeDefencePerGame + x.calcDomesticAwayDefencePerGame) / 2 }).ToList();
+            return Json(simpleTeamList, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: teams
         public async Task<ActionResult> Index()
         {
