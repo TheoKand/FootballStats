@@ -7,16 +7,12 @@ using GoalsWeb.Models;
 
 namespace GoalsWeb.Controllers
 {
-    public class ratingController : Controller
+    public class ratingController : BaseController
     {
-
-        private mochahost db = new mochahost();
 
         // GET: rating
         public ActionResult Index(string type, string teamName,string countryName)
         {
-            ViewBag.allRegions = db.regions.ToList();
-            ViewBag.allTournaments = db.tournaments.ToList();
 
             team team = db.teams.FirstOrDefault(t => t.name.ToLower() == teamName.ToLower());
             region region = db.regions.FirstOrDefault(r => r.name.ToLower() == countryName.ToLower());

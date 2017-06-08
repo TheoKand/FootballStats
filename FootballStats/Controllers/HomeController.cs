@@ -7,14 +7,11 @@ using System.Web.Mvc;
 
 namespace GoalsWeb.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private mochahost db = new mochahost();
 
         public ActionResult Index()
         {
-            ViewBag.allRegions = db.regions.ToList();
-            ViewBag.allTournaments = db.tournaments.ToList();
 
             return View();
         }

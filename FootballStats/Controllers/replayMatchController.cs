@@ -7,15 +7,11 @@ using GoalsWeb.Models;
 
 namespace GoalsWeb.Controllers
 {
-    public class replayMatchController : Controller
+    public class replayMatchController : BaseController
     {
-
-        private mochahost db = new mochahost();
 
         public ActionResult Details(int id)
         {
-            ViewBag.allRegions = db.regions.ToList();
-            ViewBag.allTournaments = db.tournaments.ToList();
 
             fmatch match = db.fmatches.FirstOrDefault(m => m.id == id);
             if (match == null)

@@ -11,9 +11,8 @@ using GoalsWeb.Models;
 
 namespace GoalsWeb.Controllers
 {
-    public class teamsController : Controller
+    public class teamsController : BaseController
     {
-        private mochahost db = new mochahost();
         public readonly int PAGE_SIZE = 20;
 
         public JsonResult GetTeams()
@@ -26,9 +25,6 @@ namespace GoalsWeb.Controllers
         // GET: teams
         public async Task<ActionResult> Index()
         {
-            ViewBag.allRegions = db.regions.ToList();
-            ViewBag.allTournaments = db.tournaments.ToList();
-
             return View();
         }
 
@@ -36,8 +32,6 @@ namespace GoalsWeb.Controllers
         public async Task<ActionResult> DetailsByName(string name,int? page)
         {
 
-            ViewBag.allRegions = db.regions.ToList();
-            ViewBag.allTournaments = db.tournaments.ToList();
             ViewBag.honours = db.seasons.Where(s => s.championTeam.name == name).OrderByDescending (s=>s.year);
 
             if (string.IsNullOrWhiteSpace(name))
@@ -76,8 +70,6 @@ namespace GoalsWeb.Controllers
 
         public async Task<ContentResult> GetTeamDomesticRatingPosition(int? id)
         {
-            ViewBag.allRegions = db.regions.ToList();
-
             team team = await db.teams.FindAsync(id);
             string result = "";
             if (team != null && team.calcDomesticRating!=0)

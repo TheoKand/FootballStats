@@ -6,17 +6,13 @@ using System.Web.Mvc;
 using GoalsWeb.Models;
 namespace GoalsWeb.Controllers
 {
-    public class seasonController : Controller
+    public class seasonController : BaseController
     {
-
-        private mochahost db = new mochahost();
 
         // GET: season
         [HttpGet]
         public ActionResult Details(string name,int? year)
         {
-            ViewBag.allRegions = db.regions.ToList();
-            ViewBag.allTournaments = db.tournaments.ToList();
 
             year = year ?? 2015;
             season season = db.seasons.FirstOrDefault(s => s.tournament.name == name && s.year ==year);
