@@ -8,6 +8,9 @@ using System.Web.Routing;
 
 namespace GoalsWeb.Controllers
 {
+    /// <summary>
+    /// This is a base class for all controllers. It contains code that is nessecary for the layout of the website (footer). 
+    /// </summary>
     public class BaseController : Controller
     {
         protected mochahost db = new mochahost();

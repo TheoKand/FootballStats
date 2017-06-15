@@ -15,6 +15,10 @@ namespace GoalsWeb.Controllers
     {
         public readonly int PAGE_SIZE = 20;
 
+        /// <summary>
+        /// Returns a JSON list of teams, using an anonymous object. The full EF object can't be used for this because it's not directly serializable. 
+        /// </summary>
+        /// <returns></returns>
         public JsonResult GetTeams()
         {
             List<team> allTeams = db.teams.ToList();
@@ -23,7 +27,7 @@ namespace GoalsWeb.Controllers
         }
 
         // GET: teams
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View();
         }
@@ -31,7 +35,7 @@ namespace GoalsWeb.Controllers
 
         public async Task<ActionResult> DetailsByName(string name,int? page)
         {
-
+            //tournaments won by the team
             ViewBag.honours = db.seasons.Where(s => s.championTeam.name == name).OrderByDescending (s=>s.year);
 
             if (string.IsNullOrWhiteSpace(name))
@@ -67,7 +71,11 @@ namespace GoalsWeb.Controllers
             return View(team);
         }
 
-
+        /// <summary>
+        /// This action returns a string that displays the team's position in the domestic ratings
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ContentResult> GetTeamDomesticRatingPosition(int? id)
         {
             team team = await db.teams.FindAsync(id);
@@ -86,6 +94,11 @@ namespace GoalsWeb.Controllers
 
         }
 
+        /// <summary>
+        /// This action returns a string that displays the team's position in the international ratings
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ContentResult> GetTeamInternationalRatingPosition(int? id)
         {
             team team = await db.teams.FindAsync(id);
@@ -104,6 +117,11 @@ namespace GoalsWeb.Controllers
 
         }
 
+        /// <summary>
+        /// This action returns a string that displays the team's position in the combined ratings
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ContentResult> GetTeamTotalRatingPosition(int? id)
         {
             team team = await db.teams.FindAsync(id);

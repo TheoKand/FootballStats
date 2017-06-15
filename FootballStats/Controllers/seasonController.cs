@@ -13,8 +13,9 @@ namespace GoalsWeb.Controllers
         [HttpGet]
         public ActionResult Details(string name,int? year)
         {
-
+            //initialize the year to 2015.
             year = year ?? 2015;
+
             season season = db.seasons.FirstOrDefault(s => s.tournament.name == name && s.year ==year);
             if (season == null)
             {
@@ -26,6 +27,10 @@ namespace GoalsWeb.Controllers
             return View(season);
         }
 
+        /// <summary>
+        /// This action is called when the GO button is pressed. It calls the main action with the specified parameters (Season and year)
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Details()
         {

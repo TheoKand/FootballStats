@@ -19,6 +19,7 @@ namespace GoalsWeb.Controllers
                 return HttpNotFound();
             }
 
+            //The list of entries from table matchEvents
             ViewBag.events = db.matchevents.Where(m => m.matchId == id).ToList();
 
             return View(match);
