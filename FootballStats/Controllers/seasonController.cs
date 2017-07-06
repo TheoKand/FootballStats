@@ -13,8 +13,8 @@ namespace GoalsWeb.Controllers
         [HttpGet]
         public ActionResult Details(string name,int? year)
         {
-            //initialize the year to 2015.
-            year = year ?? 2015;
+            //initialize the year to 2016.
+            year = year ?? 2016;
 
             season season = db.seasons.FirstOrDefault(s => s.tournament.name == name && s.year ==year);
             if (season == null)
