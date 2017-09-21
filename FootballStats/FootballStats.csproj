@@ -280,13 +280,6 @@
     <Content Include="Views\teams\Index.cshtml" />
     <Content Include="Views\match\Details.cshtml" />
     <Content Include="Views\replayMatch\Details.cshtml" />
-    <Content Include="Web.config" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
