@@ -3,16 +3,13 @@ A web application that displays results and statistics from the top European foo
 
 This includes German Bundesliga, English Premier League, Italy Seria A, Spain La Liga, France League 1 and Portugal Primeira Liga. The data range is from 2000 to 2015.
 
-Online Demo:
-http://goalsweb20170519023933.azurewebsites.net/
+Demo: http://goalsweb20170519023933.azurewebsites.net/
 
-Screenshots:
-
-https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchDetails.png
-https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchReplay.png
-https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/seasonDetails.png
-https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamDetails.png
-https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamsList.png
+![Match details](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchDetails.png)
+![Match replay](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchReplay.png)
+![Season details](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/seasonDetails.png)
+![Team details](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamDetails.png)
+![Teams list](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/teamsList.png)
 
 # Technologies
 The project is built using the following technologies:
