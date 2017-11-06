@@ -1,7 +1,7 @@
 # FootballStats
 A web application that displays results and statistics from the top European football leagues. I have gathered this data by querying and parsing a popular football statistics web site. For this purpose I created a custom spider program (not shared here) that uses HTTP and regular expressions and to download and parse match data.
 
-This includes German Bundesliga, English Premier League, Italy Seria A, Spain La Liga, France League 1 and Portugal Primeira Liga. The data range is from 2000 to 2015.
+This includes German Bundesliga, English Premier League, Italy Seria A, Spain La Liga, France League 1 and Portugal Primeira Liga. 
 
 Demo: http://goalsweb20170519023933.azurewebsites.net/
 
