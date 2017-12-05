@@ -3,7 +3,7 @@ A web application that displays results and statistics from the top European foo
 
 This includes German Bundesliga, English Premier League, Italy Seria A, Spain La Liga, France League 1 and Portugal Primeira Liga. 
 
-Demo: http://goalsweb20170519023933.azurewebsites.net/
+Demo: http://footballstats20171206124559.azurewebsites.net
 
 ![Match details](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchDetails.png)
 ![Match replay](https://raw.githubusercontent.com/TheoKand/FootballStats/master/Screenshots/matchReplay.png)
